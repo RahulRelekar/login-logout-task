@@ -1,74 +1,74 @@
 // Branch 1: login-feature
-import React, { useState } from 'react'
-import './login.css'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import "./login.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setLoginUser }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: "",
+  });
 
-  const handleChange = e => {
-    const { name, value } = e.target
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setUser({
       ...user,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   // Branch 1: Introduce a change causing conflict
   const login = () => {
     axios
-      .post('http://localhost:9002/login', user)
-      .then(res => {
-        const { user, token } = res.data
+      .post("http://localhost:9002/login", user)
+      .then((res) => {
+        const { user, token } = res.data;
         if (token) {
-          const currentTime = Date.now() / 1000
+          const currentTime = Date.now() / 1000;
           if (token.exp > currentTime) {
-            localStorage.setItem('token', JSON.stringify(token))
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            setLoginUser(user)
-            navigate('/')
+            localStorage.setItem("token", JSON.stringify(token));
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            setLoginUser(user);
+            navigate("/");
           } else {
-            alert('Token expired, please log in again.')
+            alert("Token expired, please log in again.");
           }
         } else {
-          alert(res.data.message)
+          alert(res.data.message);
         }
       })
-      .catch(err => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <div className='login'>
+    <div className="login">
       <h1>Login</h1>
       <input
-        type='text'
-        name='email'
+        type="text"
+        name="email"
         value={user.email}
         onChange={handleChange}
-        placeholder='Enter your Email'
+        placeholder="Enter your Email"
       ></input>
       <input
-        type='password'
-        name='password'
+        type="password"
+        name="password"
         value={user.password}
         onChange={handleChange}
-        placeholder='Enter your Password'
+        placeholder="Enter your Password"
       ></input>
-      <div className='button' onClick={login}>
+      <div className="button" onClick={login}>
         Login
       </div>
       <div>or</div>
-      <div className='button' onClick={() => navigate('/register')}>
+      <div className="button" onClick={() => navigate("/register")}>
         Register
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
