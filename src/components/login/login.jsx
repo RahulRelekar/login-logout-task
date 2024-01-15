@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom"
 const Login = ({ setLoginUser}) => {
 
     const navigate = useNavigate()
-    const navigate1 = useNavigate()
 
     const [ user, setUser] = useState({
         email:"",
