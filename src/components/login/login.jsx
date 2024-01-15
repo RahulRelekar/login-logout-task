@@ -1,4 +1,4 @@
-// Branch 1: login-feature
+// Branch 2: login-fix
 import React, { useState } from "react";
 import "./login.css";
 import axios from "axios";
@@ -20,7 +20,7 @@ const Login = ({ setLoginUser }) => {
     });
   };
 
-  // Branch 1: Introduce a change causing conflict
+  // Branch 2: Introduce a conflicting change
   const login = () => {
     axios
       .post("http://localhost:9002/login", user)
@@ -29,6 +29,7 @@ const Login = ({ setLoginUser }) => {
         if (token) {
           const currentTime = Date.now() / 1000;
           if (token.exp > currentTime) {
+            // New conflicting change here
             localStorage.setItem("token", JSON.stringify(token));
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             setLoginUser(user);
